@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/material";
-import { UnitType, UnitImagePath } from "../services/types";
+import { UnitType, UnitImagePath } from "./types/unit.types";
 
 interface Props {
   type: UnitType;
@@ -8,7 +8,7 @@ interface Props {
 export const UnitAvatar = ({ type }: Props) => {
   return (
     <Type>
-      <img src={UnitImagePath[type]} alt={type} />
+      <img src={`static/shipImage/${UnitImagePath[type]}`} alt={type} />
       <Type>{type}</Type>
     </Type>
   );

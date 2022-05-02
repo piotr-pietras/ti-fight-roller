@@ -10,14 +10,14 @@ export enum UnitType {
 }
 
 export enum UnitImagePath {
-  infantry = "static/shipImage/infantry.png",
-  carrier = "static/shipImage/carrier.png",
-  fighter = "static/shipImage/fighter.png",
-  destroyer = "static/shipImage/destroyer.png",
-  cruiser = "static/shipImage/cruiser.png",
-  dreadnought = "static/shipImage/dreadnought.png",
-  flagship = "static/shipImage/flagship.png",
-  warsun = "static/shipImage/warsun.png",
+  infantry = "infantry.png",
+  carrier = "carrier.png",
+  fighter = "fighter.png",
+  destroyer = "destroyer.png",
+  cruiser = "cruiser.png",
+  dreadnought = "dreadnought.png",
+  flagship = "flagship.png",
+  warsun = "warsun.png",
 }
 
 export enum UnitValues {

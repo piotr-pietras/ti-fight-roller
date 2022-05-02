@@ -1,6 +1,6 @@
-import { Unit } from "./types";
+import { Unit } from "../components/types/unit.types";
 import { v4 as uuidv4 } from "uuid";
-import { UnitType } from "./types";
+import { UnitType } from "../components/types/unit.types";
 
 export const UnitsList1: Unit[] = [
   {

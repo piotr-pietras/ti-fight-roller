@@ -1,18 +1,23 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ModalCache, ModalTypes } from "../components/types/modal.types";
+import { UnitType } from "../components/types/unit.types";
 import { State } from "../services/store";
-import { ModalTypes } from "../Modal";
-
 interface InitialState {
   modal: {
     isOpen: boolean;
-    type: ModalTypes;
+    cache: ModalCache;
   };
 }
 
 const initialState: InitialState = {
   modal: {
     isOpen: false,
-    type: ModalTypes.chooseUnit,
+    cache: {
+      type: ModalTypes.chooseUnit,
+      meta: {
+        selectedUnitType: UnitType.infantry,
+      },
+    },
   },
 };
 
@@ -27,7 +32,21 @@ export const AppSlice = createSlice({
       }: PayloadAction<{ isOpen: boolean; type?: ModalTypes }>
     ) => {
       state.modal.isOpen = isOpen;
-      if (type) state.modal.type = type;
+      if (type) state.modal.cache.type = type;
+    },
+    // modalTyped: (
+    //   state,
+    //   { payload: { type } }: PayloadAction<{ type: ModalTypes }>
+    // ) => {
+    //   state.modal.cache.type = type;
+    // },
+    modalCacheUpdated: (
+      state,
+      { payload: { cache } }: PayloadAction<{ cache: ModalCache }>
+    ) => {
+      if (cache.type === state.modal.cache.type) {
+        state.modal.cache = cache;
+      }
     },
   },
 });
@@ -43,7 +62,10 @@ export const selectIsModalOpen = createSelector(
 
 export const selectModalType = createSelector(
   selectAppSlice,
-  (app) => app.modal.type
+  (app) => app.modal.cache.type
 );
 
-// export const selectUnits = (state: State) => state.unitsSlice.units;
+export const selectModalCache = createSelector(
+  selectAppSlice,
+  (app) => app.modal.cache
+);

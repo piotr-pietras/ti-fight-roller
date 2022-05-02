@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Unit } from "../services/types";
+import { Unit } from "../components/types/unit.types";
 import { UnitsList1 } from "../services/mocks";
 import { State } from "../services/store";
-import { UnitValues } from "../services/types";
+import { UnitValues } from "../components/types/unit.types";
 
 interface InitialState {
   units: Unit[];

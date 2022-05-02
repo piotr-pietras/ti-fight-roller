@@ -1,5 +1,5 @@
 import { Paper, styled } from "@mui/material";
-import { Unit, UnitValues } from "../services/types";
+import { Unit, UnitValues } from "./types/unit.types";
 import { UnitStatCounter } from "./ValueCounter";
 import { useAppDispatch } from "../services/store";
 import { UnitsActions } from "../stores/units.store";
