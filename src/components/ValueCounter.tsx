@@ -9,7 +9,7 @@ interface Props {
   onIncrease: () => void;
 }
 
-export const UnitStatCounter = ({
+export const StatCounter = ({
   value,
   title,
   onDecrease,
@@ -18,8 +18,8 @@ export const UnitStatCounter = ({
   return (
     <Container>
       <Title>{title.toUpperCase()}</Title>
-      <Button variant="contained">
-        <KeyboardArrowUpIcon onClick={() => onIncrease()} />
+      <Button variant="contained" onClick={() => onIncrease()}>
+        <KeyboardArrowUpIcon />
       </Button>
       <Counter>{value}</Counter>
       <Button variant="contained" onClick={() => onDecrease()}>

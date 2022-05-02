@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "./services/store";
 import { selectUnitsSlice } from "./stores/units.store";
 import CasinoIcon from "@mui/icons-material/Casino";
 import { AppActions, selectIsModalOpen } from "./stores/app.store";
+import { ModalTypes } from "./components/types/modal.types";
+import { UnitType } from "./components/types/unit.types";
 
 function App() {
   const units = useAppSelector(selectUnitsSlice);
@@ -21,7 +23,15 @@ function App() {
           ))}
           <UnitCreate
             onClick={() => {
-              dispatch(modalToggled({ isOpen: !isModalOpen }));
+              dispatch(
+                modalToggled({
+                  isOpen: !isModalOpen,
+                  cache: {
+                    type: ModalTypes.chooseUnit,
+                    meta: { selectedUnitType: UnitType.infantry },
+                  },
+                })
+              );
             }}
           >
             Tap here to create unit

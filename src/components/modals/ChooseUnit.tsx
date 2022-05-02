@@ -6,20 +6,43 @@ import { UnitType } from "../types/unit.types";
 import { UntiTile } from "../UnitTile";
 
 export const ChooseUnit = () => {
-  const modalCache = useAppSelector(selectModalCache);
+  const cache = useAppSelector(selectModalCache);
+  const isCached = cache.type === ModalTypes.chooseUnit;
   const { modalCacheUpdated, modalToggled } = AppActions;
   const dispatch = useAppDispatch();
 
+  const OnClickNext = () => {
+    isCached &&
+      dispatch(
+        modalToggled({
+          isOpen: true,
+          cache: {
+            type: ModalTypes.setUnitStat,
+            meta: {
+              selectedUnitType: cache.meta.selectedUnitType,
+              stat: {
+                combat: 9,
+                dices: 1,
+                soak: 0,
+              },
+            },
+          },
+        })
+      );
+  };
+
+  const onClickCancel = () => {
+    dispatch(modalToggled({ isOpen: false }));
+  };
+
   return (
-    <Container>
+    <Box>
+      <Title>Choose unit</Title>
       <UnitsContainer>
         {(Object.keys(UnitType) as Array<keyof typeof UnitType>).map((key) => (
           <UntiTile
             type={UnitType[key]}
-            selected={
-              modalCache.type === ModalTypes.chooseUnit &&
-              UnitType[key] === modalCache.meta.selectedUnitType
-            }
+            selected={isCached && UnitType[key] === cache.meta.selectedUnitType}
             onClick={() => {
               dispatch(
                 modalCacheUpdated({
@@ -34,20 +57,20 @@ export const ChooseUnit = () => {
         ))}
       </UnitsContainer>
       <ButtonConatiner>
-        <Button
-          onClick={() => {
-            dispatch(modalToggled({ isOpen: false }));
-          }}
-        >
-          cancel
+        <Button onClick={onClickCancel}>cancel</Button>
+        <Button variant="contained" onClick={OnClickNext}>
+          Next
         </Button>
-        <Button variant="contained">Next</Button>
       </ButtonConatiner>
-    </Container>
+    </Box>
   );
 };
 
-const Container = styled(Box)``;
+const Title = styled(Box)`
+  text-align: center;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSize.XL};
+`;
 
 const UnitsContainer = styled(Box)`
   display: flex;

@@ -28,18 +28,12 @@ export const AppSlice = createSlice({
     modalToggled: (
       state,
       {
-        payload: { isOpen, type },
-      }: PayloadAction<{ isOpen: boolean; type?: ModalTypes }>
+        payload: { isOpen, cache },
+      }: PayloadAction<{ isOpen: boolean; cache?: ModalCache }>
     ) => {
       state.modal.isOpen = isOpen;
-      if (type) state.modal.cache.type = type;
+      if (cache) state.modal.cache = cache;
     },
-    // modalTyped: (
-    //   state,
-    //   { payload: { type } }: PayloadAction<{ type: ModalTypes }>
-    // ) => {
-    //   state.modal.cache.type = type;
-    // },
     modalCacheUpdated: (
       state,
       { payload: { cache } }: PayloadAction<{ cache: ModalCache }>

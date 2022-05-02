@@ -1,6 +1,6 @@
 import { Paper, styled } from "@mui/material";
 import { Unit, UnitValues } from "./types/unit.types";
-import { UnitStatCounter } from "./ValueCounter";
+import { StatCounter } from "./ValueCounter";
 import { useAppDispatch } from "../services/store";
 import { UnitsActions } from "../stores/units.store";
 import { UnitAvatar } from "./UnitAvatar";
@@ -17,7 +17,7 @@ export const UnitPaper = ({ unit }: Props) => {
     <Container elevation={6}>
       <UnitAvatar type={unit.type} />
       {Object.values(UnitValues).map((valueType) => (
-        <UnitStatCounter
+        <StatCounter
           value={unit.values[valueType]}
           title={valueType}
           onDecrease={() =>

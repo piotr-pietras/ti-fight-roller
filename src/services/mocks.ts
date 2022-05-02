@@ -13,7 +13,7 @@ export const UnitsList1: Unit[] = [
     stats: {
       combat: 8,
       dices: 1,
-      "sustain damage": false,
+      soak: 0,
     },
   },
   {
@@ -26,7 +26,7 @@ export const UnitsList1: Unit[] = [
     stats: {
       combat: 3,
       dices: 1,
-      "sustain damage": true,
+      soak: 0,
     },
   },
 ];
