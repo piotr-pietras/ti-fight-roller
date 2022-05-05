@@ -10,7 +10,7 @@ interface Props {
 export const UntiTile = ({ type, selected, onClick }: Props) => {
   return (
     <Container selected={selected} onClick={onClick}>
-      <img src={`static/shipTile/${UnitImagePath[type]}`} alt={type} />
+      <Image src={`static/shipTile/${UnitImagePath[type]}`} alt={type} />
     </Container>
   );
 };
@@ -22,4 +22,8 @@ const Container = styled(Box)<{ selected: boolean }>`
   :hover {
     cursor: pointer;
   }
+`;
+
+const Image = styled("img")`
+  height: 6rem;
 `;
