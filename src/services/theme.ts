@@ -3,10 +3,6 @@ import { createTheme } from "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface Theme {
     colors: {
-      blue25: string;
-      blue100: string;
-      red000: string;
-      white000: string;
       grey15: string;
       grey25: string;
       grey50: string;
@@ -20,11 +16,6 @@ declare module "@mui/material/styles" {
       grey700: string;
       grey800: string;
       grey1000: string;
-      white100: string;
-      green300: string;
-      yellow000: string;
-      orange000: string;
-      violet000: string;
     };
     fontSize: {
       XL: string;
@@ -37,10 +28,6 @@ declare module "@mui/material/styles" {
 
   interface ThemeOptions {
     colors?: {
-      blue25: string;
-      blue100: string;
-      red000: string;
-      white000: string;
       grey15: string;
       grey25: string;
       grey50: string;
@@ -54,11 +41,6 @@ declare module "@mui/material/styles" {
       grey700: string;
       grey800: string;
       grey1000: string;
-      white100: string;
-      green300: string;
-      yellow000: string;
-      orange000: string;
-      violet000: string;
     };
     fontSize?: {
       XL: string;
@@ -94,10 +76,6 @@ export const theme = createTheme({
     },
   },
   colors: {
-    blue25: "#f3f7fc",
-    blue100: "#009cde",
-    red000: "#f00",
-    white000: "#ffffff",
     grey15: "#f9f9f9",
     grey25: "#f3f3f3",
     grey50: "#eaeef3",
@@ -111,11 +89,6 @@ export const theme = createTheme({
     grey700: "#425563",
     grey800: "#34434e",
     grey1000: "#000000",
-    white100: "#ffffff",
-    green300: "#9ec73e",
-    yellow000: "#eddb05",
-    orange000: "#ff8200",
-    violet000: "#db3eb1",
   },
   fontSize: {
     XL: "1.25rem",

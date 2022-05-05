@@ -7,6 +7,9 @@ interface Props {
   title: string;
   onDecrease: () => void;
   onIncrease: () => void;
+  disabled?: boolean;
+  disabledUpper?: boolean;
+  disabledLower?: boolean;
 }
 
 export const StatCounter = ({
@@ -14,15 +17,26 @@ export const StatCounter = ({
   title,
   onDecrease,
   onIncrease,
+  disabled,
+  disabledUpper,
+  disabledLower,
 }: Props) => {
   return (
     <Container>
       <Title>{title.toUpperCase()}</Title>
-      <Button variant="contained" onClick={() => onIncrease()}>
+      <Button
+        disabled={disabled || disabledUpper}
+        variant="contained"
+        onClick={() => onIncrease()}
+      >
         <KeyboardArrowUpIcon />
       </Button>
       <Counter>{value}</Counter>
-      <Button variant="contained" onClick={() => onDecrease()}>
+      <Button
+        disabled={disabled || disabledLower}
+        variant="contained"
+        onClick={() => onDecrease()}
+      >
         <KeyboardArrowDownIcon />
       </Button>
     </Container>

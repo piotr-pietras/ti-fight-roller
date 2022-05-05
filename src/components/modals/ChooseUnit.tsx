@@ -1,34 +1,28 @@
 import { Box, Button, styled } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../services/store";
-import { AppActions, selectModalCache } from "../../stores/app.store";
+import { useState } from "react";
+import { useAppDispatch } from "../../services/store";
+import { AppActions } from "../../stores/app.store";
 import { ModalTypes } from "../types/modal.types";
 import { UnitType } from "../types/unit.types";
 import { UntiTile } from "../UnitTile";
 
 export const ChooseUnit = () => {
-  const cache = useAppSelector(selectModalCache);
-  const isCached = cache.type === ModalTypes.chooseUnit;
-  const { modalCacheUpdated, modalToggled } = AppActions;
+  const [selected, setSelected] = useState<UnitType>(UnitType.infantry);
+  const { modalToggled } = AppActions;
   const dispatch = useAppDispatch();
 
   const OnClickNext = () => {
-    isCached &&
-      dispatch(
-        modalToggled({
-          isOpen: true,
-          cache: {
-            type: ModalTypes.setUnitStat,
-            meta: {
-              selectedUnitType: cache.meta.selectedUnitType,
-              stat: {
-                combat: 9,
-                dices: 1,
-                soak: 0,
-              },
-            },
+    dispatch(
+      modalToggled({
+        isOpen: true,
+        cache: {
+          type: ModalTypes.setUnitStat,
+          meta: {
+            selectedUnitType: selected,
           },
-        })
-      );
+        },
+      })
+    );
   };
 
   const onClickCancel = () => {
@@ -42,17 +36,8 @@ export const ChooseUnit = () => {
         {(Object.keys(UnitType) as Array<keyof typeof UnitType>).map((key) => (
           <UntiTile
             type={UnitType[key]}
-            selected={isCached && UnitType[key] === cache.meta.selectedUnitType}
-            onClick={() => {
-              dispatch(
-                modalCacheUpdated({
-                  cache: {
-                    type: ModalTypes.chooseUnit,
-                    meta: { selectedUnitType: UnitType[key] },
-                  },
-                })
-              );
-            }}
+            selected={UnitType[key] === selected}
+            onClick={() => setSelected(UnitType[key])}
           />
         ))}
       </UnitsContainer>

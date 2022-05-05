@@ -1,21 +1,22 @@
 import { Box, Button, styled } from "@mui/material";
 import { UnitPaper } from "./components/UnitPaper";
-import { Modal } from "./Modal";
+import { ModalRouter } from "./ModalRouter";
 import { useAppDispatch, useAppSelector } from "./services/store";
-import { selectUnitsSlice } from "./stores/units.store";
+import { selectUnits, UnitsActions } from "./stores/units.store";
 import CasinoIcon from "@mui/icons-material/Casino";
 import { AppActions, selectIsModalOpen } from "./stores/app.store";
 import { ModalTypes } from "./components/types/modal.types";
 import { UnitType } from "./components/types/unit.types";
 
 function App() {
-  const units = useAppSelector(selectUnitsSlice);
+  const units = useAppSelector(selectUnits);
   const isModalOpen = useAppSelector(selectIsModalOpen);
   const { modalToggled } = AppActions;
+  const { damageRolled } = UnitsActions;
   const dispatch = useAppDispatch();
   return (
     <div className="App">
-      <Modal />
+      <ModalRouter />
       <Container>
         <Box>
           {units.map((unit) => (
@@ -37,7 +38,19 @@ function App() {
             Tap here to create unit
           </UnitCreate>
         </Box>
-        <Roll startIcon={<CasinoIcon />} variant="contained">
+        <Roll
+          startIcon={<CasinoIcon />}
+          variant="contained"
+          onClick={() => {
+            dispatch(damageRolled({}));
+            dispatch(
+              modalToggled({
+                isOpen: !isModalOpen,
+                cache: { type: ModalTypes.rolledDamage },
+              })
+            );
+          }}
+        >
           Roll!
         </Roll>
       </Container>
@@ -54,11 +67,6 @@ const Container = styled(Box)`
   justify-content: space-between;
 `;
 
-// const UnitList = styled(Box)`
-//   display: flex;
-//   flex-direction: column;
-// `;
-
 const UnitCreate = styled(Box)`
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -73,5 +81,4 @@ const UnitCreate = styled(Box)`
 const Roll = styled(Button)`
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSize.XL};
-  /* background-color:  ${({ theme }) => theme.colors.green300}; */
 `;

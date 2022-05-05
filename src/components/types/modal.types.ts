@@ -1,8 +1,9 @@
-import { UnitStats, UnitType } from "./unit.types";
+import { UnitType } from "./unit.types";
 
 export enum ModalTypes {
   chooseUnit = "chooseUnit",
   setUnitStat = "setUnitStat",
+  rolledDamage = "rolledDamage",
 }
 
 interface ChooseUnitModalCache {
@@ -16,12 +17,14 @@ interface SetUnitStatModalCache {
   type: ModalTypes.setUnitStat;
   meta: {
     selectedUnitType: UnitType;
-    stat: {
-      [UnitStats.combat]: number;
-      [UnitStats.dices]: number;
-      [UnitStats.soak]: number;
-    };
   };
 }
 
-export type ModalCache = ChooseUnitModalCache | SetUnitStatModalCache;
+interface RolledDamageModalCache {
+  type: ModalTypes.rolledDamage;
+}
+
+export type ModalCache =
+  | ChooseUnitModalCache
+  | SetUnitStatModalCache
+  | RolledDamageModalCache;

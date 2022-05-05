@@ -25,22 +25,26 @@ export enum UnitValues {
   damage = "damage",
 }
 
+export interface UnitValuesTypes {
+  [UnitValues.quantity]: number;
+  [UnitValues.damage]: number;
+}
+
 export enum UnitStats {
   combat = "combat",
   dices = "dices",
   soak = "soak",
 }
 
+export interface UnitStatsType {
+  [UnitStats.combat]: number;
+  [UnitStats.dices]: number;
+  [UnitStats.soak]: number;
+}
+
 export interface Unit {
   id: string;
   type: UnitType;
-  values: {
-    [UnitValues.quantity]: number;
-    [UnitValues.damage]: number;
-  };
-  stats: {
-    [UnitStats.combat]: number;
-    [UnitStats.dices]: number;
-    [UnitStats.soak]: number;
-  };
+  values: UnitValuesTypes;
+  stats: UnitStatsType;
 }

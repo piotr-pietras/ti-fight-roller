@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Unit } from "../components/types/unit.types";
-import { UnitsList1 } from "../services/mocks";
+import { Unit, UnitStatsType, UnitType } from "../components/types/unit.types";
 import { State } from "../services/store";
 import { UnitValues } from "../components/types/unit.types";
+import { v4 as uuidv4 } from "uuid";
+import { diceRoll } from "../services/dice";
 
 interface InitialState {
   units: Unit[];
+  rolledDamage: number;
 }
 
 const initialState: InitialState = {
-  units: UnitsList1,
+  units: [],
+  rolledDamage: 0,
 };
 
 export const UnitsSlice = createSlice({
@@ -27,20 +30,57 @@ export const UnitsSlice = createSlice({
       }>
     ) => {
       const change = changeType === "increase" ? 1 : -1;
-      return {
-        ...state,
-        units: state.units.map((unit) => {
-          if (unit.id === id)
+      const isQuantityDecrease =
+        valueType === UnitValues.quantity && changeType === "decrease";
+
+      state.units = state.units.map((unit) => {
+        if (unit.id === id) {
+          if (isQuantityDecrease) {
+            const maxDamage = (unit.values.quantity + change) * unit.stats.soak;
+            const isOverDamage = unit.values.damage > maxDamage;
+
             return {
               ...unit,
               values: {
-                ...unit.values,
-                [valueType]: unit.values[valueType] + change,
+                [UnitValues.quantity]: unit.values[valueType] + change,
+                [UnitValues.damage]: isOverDamage
+                  ? maxDamage
+                  : unit.values.damage,
               },
             };
-          return unit;
-        }),
+          }
+
+          return {
+            ...unit,
+            values: {
+              ...unit.values,
+              [valueType]: unit.values[valueType] + change,
+            },
+          };
+        }
+        return unit;
+      });
+    },
+    unitAdded: (
+      state,
+      {
+        payload: { unitType, unitStat },
+      }: PayloadAction<{ unitType: UnitType; unitStat: UnitStatsType }>
+    ) => {
+      const newUnit: Unit = {
+        id: uuidv4(),
+        type: unitType,
+        stats: {
+          dices: unitStat.dices,
+          combat: unitStat.combat,
+          soak: unitStat.soak,
+        },
+        values: {
+          quantity: 1,
+          damage: 0,
+        },
       };
+      return { ...state, units: [...state.units, newUnit] };
     },
     unitRemoved: (
       state,
@@ -48,9 +88,20 @@ export const UnitsSlice = createSlice({
     ) => {
       return { ...state, units: state.units.filter(({ id }) => id !== unitId) };
     },
+    damageRolled: (state, _) => {
+      let rolled = 0;
+      state.units.forEach((unit) => {
+        for (let i = 0; i < unit.values.quantity; i++)
+          for (let j = 0; j < unit.stats.dices; j++)
+            if (diceRoll(10, unit.stats.combat)) rolled++;
+      });
+      state.rolledDamage = rolled;
+    },
   },
 });
 
 export const UnitsActions = UnitsSlice.actions;
 
-export const selectUnitsSlice = (state: State) => state.unitsSlice.units;
+export const selectUnits = (state: State) => state.unitsSlice.units;
+export const selectRolledDamage = (state: State) =>
+  state.unitsSlice.rolledDamage;

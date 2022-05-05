@@ -1,5 +1,6 @@
 import { Modal as Container, Box } from "@mui/material";
 import { ChooseUnit } from "./components/modals/ChooseUnit";
+import { RolledDamage } from "./components/modals/RolledDamage";
 import { SetUnitStat } from "./components/modals/SetUnitStat";
 import { ModalTypes } from "./components/types/modal.types";
 import { useAppSelector } from "./services/store";
@@ -8,9 +9,10 @@ import { selectIsModalOpen, selectModalType } from "./stores/app.store";
 export const ModalRoutes = {
   [ModalTypes.chooseUnit]: <ChooseUnit />,
   [ModalTypes.setUnitStat]: <SetUnitStat />,
+  [ModalTypes.rolledDamage]: <RolledDamage />,
 };
 
-export const Modal = () => {
+export const ModalRouter = () => {
   const modal = useAppSelector(selectModalType);
   const isOpen = useAppSelector(selectIsModalOpen);
   return (
@@ -33,5 +35,4 @@ const style = {
   borderRadius: "4px",
   boxShadow: 24,
   p: 4,
-  opacity: 0.95,
 };
